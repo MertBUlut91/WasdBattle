@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eb849008d11f466a93fcf00b7a2e04e, type: 3}
+  m_Name: Paladin
+  m_EditorClassIdentifier: Assembly-CSharp::WasdBattle.Data.CharacterData
+  characterId: char_paladin
+  characterName: Paladin
+  characterClass: 4
+  description: "Kutsal bir sava\u015F\xE7\u0131. Hem sald\u0131r\u0131 hem de savunmada
+    dengelidir. Heal yetenekleri vard\u0131r."
+  baseHealth: 130
+  baseStamina: 110
+  staminaRegenRate: 10
+  baseDefense: 0.25
+  startingSkills:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  passive: {fileID: 0}
+  ultimate: {fileID: 0}
+  characterIcon: {fileID: 21300000, guid: 1005f7014c44c6e43883192ede49c39b, type: 3}
+  characterPrefab: {fileID: 5103273793041247386, guid: cb27cd586af694aefa3e7f8262a67407, type: 3}
+  characterColor: {r: 1, g: 0.84, b: 0, a: 1}
+  isStarterCharacter: 0
+  requiresUnlock: 1
+  requiredLevel: 10
+  unlockPrices:
+  - currencyType: 0
+    amount: 1000
+  - currencyType: 1
+    amount: 200

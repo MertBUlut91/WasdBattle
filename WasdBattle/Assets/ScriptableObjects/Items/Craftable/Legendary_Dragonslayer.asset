@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38c8bbacbe9544dd9a9dfda8eedbe36d, type: 3}
+  m_Name: Legendary_Dragonslayer
+  m_EditorClassIdentifier: Assembly-CSharp::WasdBattle.Data.ItemData
+  itemId: item_legendary_sword
+  itemName: Dragonslayer
+  description: A legendary blade forged from dragon scales.
+  icon: {fileID: 0}
+  prefab: {fileID: 0}
+  slot: 4
+  requiredClass: 0
+  rarity: 4
+  level: 20
+  healthBonus: 20
+  staminaBonus: 0
+  damageBonus: 50
+  armorBonus: 0
+  magicResistanceBonus: 0
+  critChanceBonus: 0.15
+  critDamageBonus: 0.5
+  canBeCrafted: 1
+  craftingMaterials:
+  - materialType: 0
+    amount: 200
+  - materialType: 7
+    amount: 50
+  - materialType: 8
+    amount: 20
+  - materialType: 9
+    amount: 20
+  canBeBought: 0
+  shopPrice: 0

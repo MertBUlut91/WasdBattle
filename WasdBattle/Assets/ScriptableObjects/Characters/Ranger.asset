@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eb849008d11f466a93fcf00b7a2e04e, type: 3}
+  m_Name: Ranger
+  m_EditorClassIdentifier: Assembly-CSharp::WasdBattle.Data.CharacterData
+  characterId: char_ranger
+  characterName: "Ok\xE7u"
+  characterClass: 5
+  description: "Uzak mesafeden sald\u0131r\u0131 yapan usta bir ok\xE7u. H\u0131zl\u0131
+    ve \xE7evik."
+  baseHealth: 95
+  baseStamina: 105
+  staminaRegenRate: 13
+  baseDefense: 0.18
+  startingSkills:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  passive: {fileID: 0}
+  ultimate: {fileID: 0}
+  characterIcon: {fileID: 21300000, guid: 6ac99d5c72b05c8459e6447cdf30fb0e, type: 3}
+  characterPrefab: {fileID: 5034530402176506194, guid: c9eafb662bd244751a4f761256c4a8e5, type: 3}
+  characterColor: {r: 1, g: 0.8392157, b: 0, a: 1}
+  isStarterCharacter: 0
+  requiresUnlock: 1
+  requiredLevel: 15
+  unlockPrices:
+  - currencyType: 0
+    amount: 1500

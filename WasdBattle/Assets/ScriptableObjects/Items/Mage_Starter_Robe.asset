@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38c8bbacbe9544dd9a9dfda8eedbe36d, type: 3}
+  m_Name: Mage_Starter_Robe
+  m_EditorClassIdentifier: Assembly-CSharp::WasdBattle.Data.ItemData
+  itemId: item_mage_starter_robe
+  itemName: Apprentice Robe
+  description: A simple robe for beginner mages.
+  icon: {fileID: 21300000, guid: e6c399dcb501b28449850d594f7d2d0a, type: 3}
+  prefab: {fileID: 8210348781675372220, guid: a0f82fa65ca3b450980deb7238218eae, type: 3}
+  slot: 1
+  requiredClass: 1
+  rarity: 0
+  level: 1
+  healthBonus: 10
+  staminaBonus: 5
+  damageBonus: 0
+  armorBonus: 0
+  magicResistanceBonus: 5
+  critChanceBonus: 0
+  critDamageBonus: 0
+  canBeCrafted: 0
+  craftingMaterials: []
+  canBeBought: 0
+  shopPrice: 0
