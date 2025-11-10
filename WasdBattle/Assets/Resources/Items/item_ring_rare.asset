@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38c8bbacbe9544dd9a9dfda8eedbe36d, type: 3}
+  m_Name: item_ring_rare
+  m_EditorClassIdentifier: Assembly-CSharp::WasdBattle.Data.ItemData
+  itemId: item_ring_rare
+  itemName: Enchanted Ring
+  description: A Rare Ring1 for All
+  icon: {fileID: 21300000, guid: 08f8c4d49b6854b499a483ce25963300, type: 3}
+  prefab: {fileID: 0}
+  slot: 5
+  requiredClass: 0
+  rarity: 2
+  level: 0
+  healthBonus: 15
+  staminaBonus: 15
+  damageBonus: 0
+  armorBonus: 5
+  magicResistanceBonus: 5
+  critChanceBonus: 0
+  critDamageBonus: 0
+  canBeCrafted: 0
+  craftingMaterials: []
+  canBeBought: 0
+  shopPrice: 0

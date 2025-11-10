@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eb849008d11f466a93fcf00b7a2e04e, type: 3}
+  m_Name: Mage
+  m_EditorClassIdentifier: Assembly-CSharp::WasdBattle.Data.CharacterData
+  characterId: char_mage
+  characterName: "Alev B\xFCy\xFCc\xFCs\xFC"
+  characterClass: 0
+  description: "Y\xFCksek hasar veren b\xFCy\xFCler kullan\u0131r ancak dayan\u0131kl\u0131l\u0131\u011F\u0131
+    d\xFC\u015F\xFCkt\xFCr. H\u0131zl\u0131 t\xFCkenir ama b\xFCy\xFCk burst hasar
+    verir."
+  baseHealth: 80
+  baseStamina: 80
+  staminaRegenRate: 8
+  baseDefense: 0.1
+  startingItems:
+  - {fileID: 11400000, guid: 7425a0b9681f543eba5488856023ef8d, type: 2}
+  - {fileID: 11400000, guid: a4d6c9d0454ea46aa9e9c6914e52db13, type: 2}
+  - {fileID: 11400000, guid: ff99054632a1248a6b34266de7a99268, type: 2}
+  - {fileID: 11400000, guid: 7f9c31a5b0cd549bb8409fa9550b539b, type: 2}
+  - {fileID: 11400000, guid: 132f99b0c905e4c928ceb6e4badb9224, type: 2}
+  - {fileID: 11400000, guid: ad15af72dd1bf4d208446fa4350c8984, type: 2}
+  - {fileID: 11400000, guid: ad15af72dd1bf4d208446fa4350c8984, type: 2}
+  startingSkills:
+  - {fileID: 11400000, guid: 46594ce520d8942259c42010cb2f53c5, type: 2}
+  - {fileID: 11400000, guid: bb43e986e5088416887619b55839487f, type: 2}
+  - {fileID: 11400000, guid: e07c5491020b34003b6e51dc467206b9, type: 2}
+  passive: {fileID: 11400000, guid: c614dc11e1eeb4ff4a875ed34e9fe072, type: 2}
+  ultimate: {fileID: 11400000, guid: e07c5491020b34003b6e51dc467206b9, type: 2}
+  allLightSkills:
+  - {fileID: 11400000, guid: 46594ce520d8942259c42010cb2f53c5, type: 2}
+  allNormalSkills:
+  - {fileID: 11400000, guid: e07c5491020b34003b6e51dc467206b9, type: 2}
+  allHeavySkills:
+  - {fileID: 11400000, guid: bb43e986e5088416887619b55839487f, type: 2}
+  allUltimateSkills:
+  - {fileID: 11400000, guid: 11df52efdc0444364a8bbe01a5f202ce, type: 2}
+  allPassiveSkills:
+  - {fileID: 11400000, guid: 7705e554ed86442a6b28e90f2ee23eff, type: 2}
+  allComboSkills: []
+  characterIcon: {fileID: 21300000, guid: dce08653d4698a845ab36eec1c98c815, type: 3}
+  characterPrefab: {fileID: 4225140156882238229, guid: 88edb837892404fcaba6b2ca7a1b6339, type: 3}
+  characterColor: {r: 1, g: 0.3, b: 0, a: 1}
+  isStarterCharacter: 1
+  requiresUnlock: 0
+  requiredLevel: 1
+  unlockPrices: []

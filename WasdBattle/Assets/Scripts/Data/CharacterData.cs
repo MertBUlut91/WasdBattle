@@ -22,12 +22,25 @@ namespace WasdBattle.Data
         public float staminaRegenRate = 10f; // per second
         public float baseDefense = 0f; // 0-1 arası hasar azaltma
         
+        [Header("Starting Equipment")]
+        [Tooltip("Karakterin başlangıçta sahip olduğu itemler")]
+        public ItemData[] startingItems;
+        
         [Header("Starting Skills")]
         public SkillData[] startingSkills = new SkillData[3];
         
         [Header("Passive & Ultimate")]
         public PassiveAbilityData passive;
         public SkillData ultimate;
+        
+        [Header("All Available Skills (Unlock edilebilir)")]
+        [Tooltip("Bu karakterin açabileceği tüm skill'ler (kategori bazlı)")]
+        public SkillData[] allLightSkills;    // Light - Hızlı, düşük hasar
+        public SkillData[] allNormalSkills;   // Normal - Orta hız, orta hasar
+        public SkillData[] allHeavySkills;    // Heavy - Yavaş, yüksek hasar
+        public SkillData[] allUltimateSkills; // Ultimate - En güçlü skill
+        public SkillData[] allPassiveSkills;  // Passive - Pasif yetenekler
+        public SkillData[] allComboSkills;    // Combo - Combo skill'ler
         
         [Header("Visual")]
         public Sprite characterIcon;

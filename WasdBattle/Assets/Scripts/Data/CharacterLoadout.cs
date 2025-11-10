@@ -79,6 +79,7 @@ namespace WasdBattle.Data
         
         /// <summary>
         /// Belirtilen slot'a item ekle
+        /// Ring için özel mantık: Boş slot varsa oraya, yoksa ilk slot'u değiştir
         /// </summary>
         public void EquipItem(EquipmentSlot slot, string itemId)
         {
@@ -100,10 +101,9 @@ namespace WasdBattle.Data
                     equippedWeapon = itemId;
                     break;
                 case EquipmentSlot.Ring1:
-                    equippedRing1 = itemId;
-                    break;
                 case EquipmentSlot.Ring2:
-                    equippedRing2 = itemId;
+                    // Ring için akıllı slot seçimi
+                    EquipRing(itemId);
                     break;
                 case EquipmentSlot.Necklace:
                     equippedNecklace = itemId;
@@ -112,6 +112,43 @@ namespace WasdBattle.Data
                     equippedBracelet = itemId;
                     break;
             }
+        }
+        
+        /// <summary>
+        /// Ring equip mantığı: Boş slot varsa oraya, yoksa ilk slot'u değiştir
+        /// Aynı item'den 2 tane takılabilir (örn: 2x Common Ring) - count kontrolü EquipmentUI'da yapılır
+        /// </summary>
+        private void EquipRing(string itemId)
+        {
+            // Ring1 boşsa oraya tak
+            if (string.IsNullOrEmpty(equippedRing1))
+            {
+                equippedRing1 = itemId;
+                Debug.Log($"[CharacterLoadout] Equipped ring to Ring1: {itemId}");
+            }
+            // Ring2 boşsa oraya tak
+            else if (string.IsNullOrEmpty(equippedRing2))
+            {
+                equippedRing2 = itemId;
+                Debug.Log($"[CharacterLoadout] Equipped ring to Ring2: {itemId}");
+            }
+            // Her ikisi de doluysa Ring1'i değiştir
+            else
+            {
+                equippedRing1 = itemId;
+                Debug.Log($"[CharacterLoadout] Replaced Ring1 with: {itemId}");
+            }
+        }
+        
+        /// <summary>
+        /// Ring'in kaç tane equipped olduğunu say
+        /// </summary>
+        public int GetEquippedRingCount(string itemId)
+        {
+            int count = 0;
+            if (equippedRing1 == itemId) count++;
+            if (equippedRing2 == itemId) count++;
+            return count;
         }
         
         /// <summary>
@@ -139,7 +176,38 @@ namespace WasdBattle.Data
         /// </summary>
         public void UnequipItem(EquipmentSlot slot)
         {
-            EquipItem(slot, "");
+            switch (slot)
+            {
+                case EquipmentSlot.Helmet:
+                    equippedHelmet = "";
+                    break;
+                case EquipmentSlot.Chest:
+                    equippedChest = "";
+                    break;
+                case EquipmentSlot.Gloves:
+                    equippedGloves = "";
+                    break;
+                case EquipmentSlot.Legs:
+                    equippedLegs = "";
+                    break;
+                case EquipmentSlot.Weapon:
+                    equippedWeapon = "";
+                    break;
+                case EquipmentSlot.Ring1:
+                    equippedRing1 = "";
+                    Debug.Log($"[CharacterLoadout] Unequipped Ring1");
+                    break;
+                case EquipmentSlot.Ring2:
+                    equippedRing2 = "";
+                    Debug.Log($"[CharacterLoadout] Unequipped Ring2");
+                    break;
+                case EquipmentSlot.Necklace:
+                    equippedNecklace = "";
+                    break;
+                case EquipmentSlot.Bracelet:
+                    equippedBracelet = "";
+                    break;
+            }
         }
         
         /// <summary>

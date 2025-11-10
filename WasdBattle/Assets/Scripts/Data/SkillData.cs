@@ -76,10 +76,12 @@ namespace WasdBattle.Data
     
     public enum SkillType
     {
-        Fast,      // Hızlı, düşük hasar, kısa combo
-        Heavy,     // Yavaş, yüksek hasar, uzun combo
-        Special,   // Özel efektli
-        Ultimate   // Ultimate skill
+        Light,     // Light - Hızlı, düşük hasar
+        Normal,    // Normal - Orta hız, orta hasar
+        Heavy,     // Heavy - Yavaş, yüksek hasar
+        Ultimate,  // Ultimate - En güçlü skill
+        Passive,   // Passive - Pasif yetenek
+        Combo      // Combo - Combo skill
     }
     
     public enum SkillEffectType

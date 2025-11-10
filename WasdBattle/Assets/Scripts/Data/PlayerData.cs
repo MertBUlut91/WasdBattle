@@ -37,7 +37,14 @@ namespace WasdBattle.Data
         // Sahip olunan karakterler ve skill'ler
         public List<string> ownedCharacters = new List<string>();
         public List<string> ownedSkills = new List<string>();
-        public List<string> ownedItems = new List<string>(); // Sahip olunan itemler
+        public List<string> ownedItems = new List<string>(); // Sahip olunan itemler (unique list)
+        
+        // Item count sistemi (itemId -> count)
+        [SerializeField] private Dictionary<string, int> itemCounts = new Dictionary<string, int>();
+        
+        // Serialization için helper (Dictionary serialize edilemez)
+        [SerializeField] private List<string> _itemCountKeys = new List<string>();
+        [SerializeField] private List<int> _itemCountValues = new List<int>();
         
         // Seçili karakter
         public string selectedCharacterId;
@@ -190,6 +197,135 @@ namespace WasdBattle.Data
         }
         
         public float WinRate => totalMatches > 0 ? (float)wins / totalMatches : 0f;
+        
+        /// <summary>
+        /// Item'e sahip mi kontrol et
+        /// </summary>
+        public bool HasItem(string itemId)
+        {
+            return ownedItems.Contains(itemId);
+        }
+        
+        /// <summary>
+        /// Item count'u al (yoksa 0)
+        /// </summary>
+        public int GetItemCount(string itemId)
+        {
+            InitializeItemCounts();
+            return itemCounts.ContainsKey(itemId) ? itemCounts[itemId] : 0;
+        }
+        
+        /// <summary>
+        /// Inventory'e item ekle (stackable ise count artar)
+        /// </summary>
+        public void AddItem(string itemId, int count = 1)
+        {
+            InitializeItemCounts();
+            
+            if (!HasItem(itemId))
+            {
+                ownedItems.Add(itemId);
+                itemCounts[itemId] = count;
+                Debug.Log($"[PlayerData] Item added to inventory: {itemId} x{count}");
+            }
+            else
+            {
+                itemCounts[itemId] += count;
+                Debug.Log($"[PlayerData] Item count increased: {itemId} x{itemCounts[itemId]}");
+            }
+            
+            SyncItemCountsForSerialization();
+        }
+        
+        /// <summary>
+        /// Inventory'den item çıkar (count azalır, 0 olursa tamamen kaldırılır)
+        /// </summary>
+        public void RemoveItem(string itemId, int count = 1)
+        {
+            InitializeItemCounts();
+            
+            if (!HasItem(itemId))
+                return;
+            
+            if (!itemCounts.ContainsKey(itemId))
+                itemCounts[itemId] = 1;
+            
+            itemCounts[itemId] -= count;
+            
+            if (itemCounts[itemId] <= 0)
+            {
+                ownedItems.Remove(itemId);
+                itemCounts.Remove(itemId);
+                Debug.Log($"[PlayerData] Item removed from inventory: {itemId}");
+            }
+            else
+            {
+                Debug.Log($"[PlayerData] Item count decreased: {itemId} x{itemCounts[itemId]}");
+            }
+            
+            SyncItemCountsForSerialization();
+        }
+        
+        /// <summary>
+        /// Dictionary'yi serialize edilebilir list'lere sync et
+        /// </summary>
+        private void SyncItemCountsForSerialization()
+        {
+            _itemCountKeys.Clear();
+            _itemCountValues.Clear();
+            
+            foreach (var kvp in itemCounts)
+            {
+                _itemCountKeys.Add(kvp.Key);
+                _itemCountValues.Add(kvp.Value);
+            }
+        }
+        
+        /// <summary>
+        /// List'lerden Dictionary'yi restore et
+        /// </summary>
+        private void InitializeItemCounts()
+        {
+            if (itemCounts == null)
+                itemCounts = new Dictionary<string, int>();
+            
+            // Eğer dictionary boş ama list'ler doluysa, restore et
+            if (itemCounts.Count == 0 && _itemCountKeys != null && _itemCountKeys.Count > 0)
+            {
+                for (int i = 0; i < _itemCountKeys.Count; i++)
+                {
+                    itemCounts[_itemCountKeys[i]] = _itemCountValues[i];
+                }
+            }
+            
+            // Eski save'ler için: ownedItems'da olan ama count'u olmayan itemler için count=1 ekle
+            foreach (var itemId in ownedItems)
+            {
+                if (!itemCounts.ContainsKey(itemId))
+                {
+                    itemCounts[itemId] = 1;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Karakterin başlangıç itemlerini inventory'e ekle
+        /// </summary>
+        public void AddStartingItems(CharacterData characterData)
+        {
+            if (characterData.startingItems == null || characterData.startingItems.Length == 0)
+                return;
+            
+            foreach (var item in characterData.startingItems)
+            {
+                if (item != null)
+                {
+                    AddItem(item.itemId);
+                }
+            }
+            
+            Debug.Log($"[PlayerData] Added {characterData.startingItems.Length} starting items for {characterData.characterName}");
+        }
     }
 }
 

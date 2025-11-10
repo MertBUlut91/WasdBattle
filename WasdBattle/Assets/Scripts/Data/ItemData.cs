@@ -23,6 +23,7 @@ namespace WasdBattle.Data
         public ItemClass requiredClass; // Hangi class giyebilir
         public ItemRarity rarity;
         public int level; // Minimum level requirement
+        public bool isStackable = true; // Aynı item'den birden fazla olabilir mi? (varsayılan: true)
         
         [Header("Stats")]
         public int healthBonus;
@@ -40,6 +41,12 @@ namespace WasdBattle.Data
         [Header("Shop")]
         public bool canBeBought;
         public int shopPrice;
+        
+        [Header("Salvage (Item Eritme)")]
+        public bool canBeSalvaged = true;
+        [Range(0f, 1f)]
+        [Tooltip("Crafting materyallerinin yüzde kaçını geri verir? (0.5 = %50)")]
+        public float salvageReturnRate = 0.5f; // Varsayılan %50 geri dönüş
         
         /// <summary>
         /// Bu item'i belirtilen class giyebilir mi?
@@ -64,6 +71,50 @@ namespace WasdBattle.Data
             
             string summary = "";
             foreach (var material in craftingMaterials)
+            {
+                if (material.amount > 0)
+                {
+                    summary += $"{material.materialType}: {material.amount}\n";
+                }
+            }
+            return summary.TrimEnd('\n');
+        }
+        
+        /// <summary>
+        /// Bu item'i salvage ettiğinde geri alınacak materyaller
+        /// Crafting materyallerinden otomatik hesaplanır
+        /// </summary>
+        public CraftingMaterial[] GetSalvageMaterials()
+        {
+            if (!canBeSalvaged || craftingMaterials == null || craftingMaterials.Length == 0)
+                return new CraftingMaterial[0];
+            
+            CraftingMaterial[] salvageMats = new CraftingMaterial[craftingMaterials.Length];
+            for (int i = 0; i < craftingMaterials.Length; i++)
+            {
+                salvageMats[i] = new CraftingMaterial
+                {
+                    materialType = craftingMaterials[i].materialType,
+                    amount = Mathf.FloorToInt(craftingMaterials[i].amount * salvageReturnRate)
+                };
+            }
+            return salvageMats;
+        }
+        
+        /// <summary>
+        /// Salvage sonucu elde edilecek materyallerin özeti (UI için)
+        /// </summary>
+        public string GetSalvageRewardSummary()
+        {
+            if (!canBeSalvaged)
+                return "Cannot be salvaged";
+            
+            var salvageMats = GetSalvageMaterials();
+            if (salvageMats.Length == 0)
+                return "No materials returned";
+            
+            string summary = "";
+            foreach (var material in salvageMats)
             {
                 if (material.amount > 0)
                 {

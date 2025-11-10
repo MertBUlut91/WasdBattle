@@ -57,17 +57,17 @@ namespace WasdBattle.Editor
         private static void CreateFastSkill(string path, ComboData combo)
         {
             SkillData skill = ScriptableObject.CreateInstance<SkillData>();
-            skill.skillId = "skill_fast_strike";
+            skill.skillId = "skill_light_strike";
             skill.skillName = "Hızlı Vuruş";
             skill.description = "Hızlı ve düşük maliyetli bir saldırı.";
-            skill.skillType = SkillType.Fast;
+            skill.skillType = SkillType.Light;
             skill.staminaCost = 15;
             skill.baseDamage = 20;
             skill.cooldown = 0f;
             skill.comboData = combo;
             skill.rarity = SkillRarity.Common;
             
-            AssetDatabase.CreateAsset(skill, $"{path}/FastStrike.asset");
+            AssetDatabase.CreateAsset(skill, $"{path}/LightStrike.asset");
         }
         
         private static void CreateHeavySkill(string path, ComboData combo)
@@ -92,7 +92,7 @@ namespace WasdBattle.Editor
             skill.skillId = "skill_stamina_drain";
             skill.skillName = "Enerji Çalma";
             skill.description = "Rakibin enerjisini çalar ve kendine ekler.";
-            skill.skillType = SkillType.Special;
+            skill.skillType = SkillType.Normal;
             skill.staminaCost = 25;
             skill.baseDamage = 25;
             skill.cooldown = 5f;

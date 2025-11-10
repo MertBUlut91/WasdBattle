@@ -97,7 +97,7 @@ namespace WasdBattle.Economy
                     break;
                     
                 case CraftResultType.Equipment:
-                    // Equipment logic (ileride implement edilecek)
+                    // Equipment/Item crafted - handled by ItemCraftUI directly
                     Debug.Log($"[Crafting] Equipment crafted: {recipe.resultId}");
                     break;
                     
@@ -106,6 +106,53 @@ namespace WasdBattle.Economy
                     Debug.Log($"[Crafting] Consumable crafted: {recipe.resultId}");
                     break;
             }
+        }
+        
+        /// <summary>
+        /// ItemData ile craft yapılabilir mi kontrol eder
+        /// </summary>
+        public bool CanCraftItem(ItemData item)
+        {
+            if (item == null || !item.canBeCrafted)
+                return false;
+            
+            // Malzeme kontrolü
+            if (item.craftingMaterials != null)
+            {
+                foreach (var material in item.craftingMaterials)
+                {
+                    if (!_inventory.HasMaterial(material.materialType, material.amount))
+                    {
+                        return false;
+                    }
+                }
+            }
+            
+            return true;
+        }
+        
+        /// <summary>
+        /// ItemData ile craft yapar
+        /// </summary>
+        public bool CraftItem(ItemData item)
+        {
+            if (!CanCraftItem(item))
+            {
+                OnCraftFailed?.Invoke("Yetersiz malzeme!");
+                return false;
+            }
+            
+            // Malzemeleri tüket
+            if (item.craftingMaterials != null)
+            {
+                foreach (var material in item.craftingMaterials)
+                {
+                    _inventory.RemoveMaterial(material.materialType, material.amount);
+                }
+            }
+            
+            Debug.Log($"[Crafting] Crafted item: {item.itemName}");
+            return true;
         }
         
         /// <summary>

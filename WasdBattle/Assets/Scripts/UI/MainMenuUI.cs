@@ -23,26 +23,30 @@ namespace WasdBattle.UI
         
         [Header("Currency Display")]
         [SerializeField] private TextMeshProUGUI _goldText;
-        [SerializeField] private TextMeshProUGUI _essenceText;
+        
+        [Header("3D Character Display")]
+        [SerializeField] private CharacterDisplayController _characterDisplayController;
         
         [Header("Buttons")]
         [SerializeField] private Button _playButton;
         [SerializeField] private TextMeshProUGUI _playButtonText; // "Find Match" / "Searching..."
         [SerializeField] private Button _cancelMatchButton; // Cancel butonu (başta gizli)
-        [SerializeField] private Button _characterSelectButton;
+        [SerializeField] private Button _characterButton;
         [SerializeField] private Button _inventoryButton;
-        [SerializeField] private Button _shopButton;
+        [SerializeField] private Button _craftShopButton;
         [SerializeField] private Button _settingsButton;
-        [SerializeField] private Button _quitButton;
         
         [Header("Matchmaking UI")]
         [SerializeField] private GameObject _matchmakingPanel; // Timer ve cancel butonu (başta gizli)
         [SerializeField] private TextMeshProUGUI _matchmakingTimerText;
         
         [Header("Panels")]
-        [SerializeField] private GameObject _characterSelectPanel;
+        [SerializeField] private GameObject _characterPanel;
+        [SerializeField] private CharacterPanelUI _characterPanelUI;
         [SerializeField] private GameObject _inventoryPanel;
-        [SerializeField] private GameObject _shopPanel;
+        [SerializeField] private EquipmentUI _equipmentUI;
+        [SerializeField] private GameObject _craftShopPanel;
+        [SerializeField] private CraftShopPanelUI _craftShopPanelUI;
         
         private bool _isSearchingForMatch = false;
         private float _matchmakingStartTime;
@@ -56,6 +60,72 @@ namespace WasdBattle.UI
             // Matchmaking UI'yi başta gizle
             if (_matchmakingPanel != null)
                 _matchmakingPanel.SetActive(false);
+            
+            // 3D karakteri yükle
+            if (_characterDisplayController != null)
+            {
+                _characterDisplayController.LoadSelectedCharacter();
+                _characterDisplayController.SetCameraPosition(CameraPosition.MainMenu);
+            }
+            
+            // Başlangıç itemlerini kontrol et
+            CheckAndAddStartingItems();
+        }
+        
+        /// <summary>
+        /// Karakterlerin başlangıç itemlerini otomatik equip et (sadece ilk kez)
+        /// </summary>
+        private void CheckAndAddStartingItems()
+        {
+            var playerData = GameManager.Instance?.CurrentPlayerData;
+            if (playerData == null) return;
+            
+            // Her owned karakter için kontrol et
+            var allCharacters = Resources.LoadAll<WasdBattle.Data.CharacterData>("Characters");
+            
+            foreach (var character in allCharacters)
+            {
+                // Karakter owned mi?
+                if (!playerData.ownedCharacters.Contains(character.characterId))
+                    continue;
+                
+                // Bu karakterin starting itemleri var mı?
+                if (character.startingItems == null || character.startingItems.Length == 0)
+                    continue;
+                
+                // Loadout'u al
+                var loadout = playerData.GetLoadoutForCharacter(character.characterId);
+                
+                // Eğer loadout boşsa (ilk kez), starting itemleri equip et
+                bool isFirstTime = string.IsNullOrEmpty(loadout.equippedWeapon) && 
+                                   string.IsNullOrEmpty(loadout.equippedHelmet) &&
+                                   string.IsNullOrEmpty(loadout.equippedChest);
+                
+                if (isFirstTime)
+                {
+                    Debug.Log($"[MainMenu] Setting up starting equipment for {character.characterName}");
+                    
+                    // Starting itemleri inventory'e ekle VE equip et
+                    foreach (var item in character.startingItems)
+                    {
+                        if (item != null)
+                        {
+                            // Inventory'e ekle (aynı item'den 2 tane varsa count artar)
+                            playerData.AddItem(item.itemId, 1);
+                            
+                            // Otomatik equip et
+                            loadout.EquipItem(item.slot, item.itemId);
+                            Debug.Log($"[MainMenu] Equipped starting item: {item.itemName} ({item.slot})");
+                        }
+                    }
+                }
+            }
+            
+            // Kaydet
+            if (GameManager.Instance != null && GameManager.Instance.DataManager != null)
+            {
+                GameManager.Instance.DataManager.SavePlayerDataAsync(playerData);
+            }
         }
         
         private void Update()
@@ -84,20 +154,17 @@ namespace WasdBattle.UI
             if (_cancelMatchButton != null)
                 _cancelMatchButton.onClick.AddListener(OnCancelMatchClicked);
             
-            if (_characterSelectButton != null)
-                _characterSelectButton.onClick.AddListener(OnCharacterSelectClicked);
+            if (_characterButton != null)
+                _characterButton.onClick.AddListener(OnCharacterClicked);
             
             if (_inventoryButton != null)
                 _inventoryButton.onClick.AddListener(OnInventoryClicked);
             
-            if (_shopButton != null)
-                _shopButton.onClick.AddListener(OnShopClicked);
+            if (_craftShopButton != null)
+                _craftShopButton.onClick.AddListener(OnCraftShopClicked);
             
             if (_settingsButton != null)
                 _settingsButton.onClick.AddListener(OnSettingsClicked);
-            
-            if (_quitButton != null)
-                _quitButton.onClick.AddListener(OnQuitClicked);
         }
         
         private void SetupMatchmaking()
@@ -143,12 +210,9 @@ namespace WasdBattle.UI
                 _xpBar.fillAmount = progress;
             }
             
-            // Currency
+            // Currency (sadece Gold)
             if (_goldText != null)
                 _goldText.text = playerData.gold.ToString();
-            
-            if (_essenceText != null)
-                _essenceText.text = playerData.essence.ToString();
         }
         
         private void OnPlayClicked()
@@ -225,40 +289,57 @@ namespace WasdBattle.UI
             GameManager.Instance.SetGameState(GameState.MainMenu);
         }
         
-        private void OnCharacterSelectClicked()
+        private void OnCharacterClicked()
         {
-            Debug.Log("[MainMenu] Character Select clicked");
+            Debug.Log("[MainMenu] Character button clicked");
             
-            if (_characterSelectPanel != null)
-                _characterSelectPanel.SetActive(true);
+            if (_characterPanelUI != null)
+            {
+                _characterPanelUI.OpenPanel();
+                
+                // Kamera pozisyonunu değiştir
+                if (_characterDisplayController != null)
+                    _characterDisplayController.SetCameraPosition(CameraPosition.CharacterPanel);
+            }
         }
         
         private void OnInventoryClicked()
         {
-            Debug.Log("[MainMenu] Inventory clicked");
+            Debug.Log("[MainMenu] Inventory button clicked");
             
-            if (_inventoryPanel != null)
-                _inventoryPanel.SetActive(true);
+            if (_equipmentUI != null)
+            {
+                _equipmentUI.OpenPanel();
+                
+                // Kamera pozisyonunu değiştir
+                if (_characterDisplayController != null)
+                    _characterDisplayController.SetCameraPosition(CameraPosition.InventoryPanel);
+            }
         }
         
-        private void OnShopClicked()
+        private void OnCraftShopClicked()
         {
-            Debug.Log("[MainMenu] Shop clicked");
+            Debug.Log("[MainMenu] Craft & Shop button clicked");
             
-            if (_shopPanel != null)
-                _shopPanel.SetActive(true);
+            if (_craftShopPanelUI != null)
+            {
+                _craftShopPanelUI.OpenPanel();
+            }
         }
         
         private void OnSettingsClicked()
         {
-            Debug.Log("[MainMenu] Settings clicked");
-            // Settings panel açılacak
+            Debug.Log("[MainMenu] Settings button clicked");
+            // TODO: Settings panel açılacak
         }
         
-        private void OnQuitClicked()
+        /// <summary>
+        /// Panel kapandığında kamerayı main menu pozisyonuna döndür
+        /// </summary>
+        public void OnPanelClosed()
         {
-            Debug.Log("[MainMenu] Quit clicked");
-            GameManager.Instance.QuitGame();
+            if (_characterDisplayController != null)
+                _characterDisplayController.SetCameraPosition(CameraPosition.MainMenu);
         }
         
         private void OnDestroy()

@@ -156,6 +156,26 @@ Bu dosya, projedeki tüm dokümantasyonun hızlı erişim rehberidir.
 
 ---
 
+### 8. GAME_DATA_EDITOR_GUIDE.md
+**Amaç:** Karakter ve Item oluşturma/düzenleme editörü kullanım kılavuzu  
+**İçerik:**
+- Editörü açma ve kullanma
+- Karakter yönetimi (oluşturma, düzenleme, silme)
+- Item yönetimi (oluşturma, düzenleme, silme)
+- Arama ve filtreleme özellikleri
+- Kopyalama ve toplu işlemler
+- İpuçları ve en iyi uygulamalar
+- Hızlı başlangıç örnekleri
+
+**Ne zaman oku:** Yeni karakter veya item oluştururken
+
+**Önemli Bölümler:**
+- "Karakter Yönetimi": Karakter oluşturma ve düzenleme
+- "Item Yönetimi": Item oluşturma ve düzenleme
+- "Hızlı Başlangıç": 5 dakikada ilk varlıklarınızı oluşturun
+
+---
+
 ## 🔍 Hızlı Arama
 
 ### Sorun Giderme
@@ -168,6 +188,7 @@ Bu dosya, projedeki tüm dokümantasyonun hızlı erişim rehberidir.
 - **Matchmaking:** [QUICK_START_GUIDE.md - SimpleMatchmakingManager](QUICK_START_GUIDE.md#3-simplematchmakingmanager-eşleşme)
 - **Combat:** [QUICK_START_GUIDE.md - CombatManager](QUICK_START_GUIDE.md#7-combatmanager-dövüş)
 - **Skills:** [QUICK_START_GUIDE.md - SkillManager](QUICK_START_GUIDE.md#5-skillmanager-skill-yönetimi)
+- **Game Data Editor:** [GAME_DATA_EDITOR_GUIDE.md](GAME_DATA_EDITOR_GUIDE.md)
 
 ### Kurulum
 - **İlk kurulum:** [QUICK_START_GUIDE.md - İlk Kurulum](QUICK_START_GUIDE.md#-ilk-kurulum)
@@ -179,9 +200,9 @@ Bu dosya, projedeki tüm dokümantasyonun hızlı erişim rehberidir.
 ## 📊 Dokümantasyon İstatistikleri
 
 ### Dosya Sayıları
-- **Markdown Dosyaları:** 7 adet
-- **C# Script'ler:** 46 adet
-- **Toplam Satır:** ~2000+ satır dokümantasyon
+- **Markdown Dosyaları:** 8 adet
+- **C# Script'ler:** 47 adet
+- **Toplam Satır:** ~2500+ satır dokümantasyon
 
 ### Kapsam
 - ✅ Kurulum rehberleri
@@ -228,6 +249,8 @@ Bu dosya, projedeki tüm dokümantasyonun hızlı erişim rehberidir.
 ## 🔄 Dokümantasyon Güncellemeleri
 
 ### Son Güncellemeler
+- ✅ **GameDataEditor.cs** - Karakter ve Item editörü eklendi
+- ✅ **GAME_DATA_EDITOR_GUIDE.md** - Editör kullanım kılavuzu oluşturuldu
 - ✅ **GameManager.cs** - `UnityServices.InitializeAsync()` eklendi
 - ✅ **BootSceneController.cs** - Yeni scene controller oluşturuldu
 - ✅ **LobbyUI.cs** - Lobby UI controller eklendi
@@ -237,6 +260,7 @@ Bu dosya, projedeki tüm dokümantasyonun hızlı erişim rehberidir.
 - ✅ **README.md** - Ana proje README'si oluşturuldu
 
 ### Versiyon
+**v1.1** - Game Data Editor eklendi (9 Kasım 2025)
 **v1.0** - İlk tam dokümantasyon seti (7 Kasım 2024)
 
 ---

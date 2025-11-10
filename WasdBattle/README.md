@@ -16,6 +16,9 @@
 - **[MATCHMAKING_UPDATE.md](MATCHMAKING_UPDATE.md)** - Matchmaking sistemi detayları
 - **[Assets/_Project/Scripts/README.md](Assets/_Project/Scripts/README.md)** - Kod yapısı
 
+### 🛠️ Geliştirme Araçları
+- **[GAME_DATA_EDITOR_GUIDE.md](GAME_DATA_EDITOR_GUIDE.md)** - Karakter ve Item editörü kullanım kılavuzu
+
 ---
 
 ## 🎯 Oyun Özellikleri

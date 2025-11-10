@@ -169,54 +169,15 @@ namespace WasdBattle.Network
             data.ownedSkills.Add("skill_slash");         // Warrior
             data.ownedSkills.Add("skill_shuriken");      // Ninja
             
-            // Başlangıç itemleri (starter equipment - her class için base itemler)
-            // Mage starter items
-            data.ownedItems.Add("item_mage_starter_robe");
-            data.ownedItems.Add("item_mage_starter_staff");
-            
-            // Warrior starter items
-            data.ownedItems.Add("item_warrior_starter_armor");
-            data.ownedItems.Add("item_warrior_starter_sword");
-            
-            // Ninja starter items
-            data.ownedItems.Add("item_ninja_starter_outfit");
-            data.ownedItems.Add("item_ninja_starter_daggers");
-            
-            // Her karakter için başlangıç loadout'ları oluştur
-            CreateDefaultLoadouts(data);
+            // NOT: Başlangıç itemleri CharacterData'dan otomatik olarak eklenir (MainMenuUI.CheckAndAddStartingItems)
+            // Burada hardcoded item eklemeyin!
             
             Debug.Log($"[CloudSave] Created default player data: {data.username}, Level: {data.level}, ELO: {data.elo}, Gold: {data.gold}");
             return data;
         }
         
-        /// <summary>
-        /// Her karakter için başlangıç loadout'ları oluştur
-        /// </summary>
-        private void CreateDefaultLoadouts(PlayerData data)
-        {
-            // Mage loadout
-            var mageLoadout = new CharacterLoadout("char_mage");
-            mageLoadout.equippedChest = "item_mage_starter_robe";
-            mageLoadout.equippedWeapon = "item_mage_starter_staff";
-            mageLoadout.activeSkill1 = "skill_fireball";
-            data.characterLoadouts.Add(mageLoadout);
-            
-            // Warrior loadout
-            var warriorLoadout = new CharacterLoadout("char_warrior");
-            warriorLoadout.equippedChest = "item_warrior_starter_armor";
-            warriorLoadout.equippedWeapon = "item_warrior_starter_sword";
-            warriorLoadout.activeSkill1 = "skill_slash";
-            data.characterLoadouts.Add(warriorLoadout);
-            
-            // Ninja loadout
-            var ninjaLoadout = new CharacterLoadout("char_ninja");
-            ninjaLoadout.equippedChest = "item_ninja_starter_outfit";
-            ninjaLoadout.equippedWeapon = "item_ninja_starter_daggers";
-            ninjaLoadout.activeSkill1 = "skill_shuriken";
-            data.characterLoadouts.Add(ninjaLoadout);
-            
-            Debug.Log($"[CloudSave] Created default loadouts for 3 characters");
-        }
+        // NOT: CreateDefaultLoadouts kaldırıldı
+        // Başlangıç loadout'ları CharacterData'daki starting items ile otomatik oluşturulur (MainMenuUI.CheckAndAddStartingItems)
     }
 }
 

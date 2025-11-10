@@ -121,6 +121,40 @@ namespace WasdBattle.Economy
                     break;
             }
         }
+        
+        /// <summary>
+        /// ItemData ile satın alma yapılabilir mi kontrol eder
+        /// </summary>
+        public bool CanPurchaseItem(ItemData item)
+        {
+            if (item == null || !item.canBeBought)
+                return false;
+            
+            // Gold kontrolü (şimdilik sadece Gold ile alınabilir)
+            return _inventory.SpendGold(0); // Sadece kontrol için, gerçekte harcamıyor
+        }
+        
+        /// <summary>
+        /// ItemData ile satın alma yapar
+        /// </summary>
+        public bool PurchaseItem(ItemData item)
+        {
+            if (item == null || !item.canBeBought)
+            {
+                OnPurchaseFailed?.Invoke("Bu item satın alınamaz!");
+                return false;
+            }
+            
+            // Gold kontrolü ve ödeme
+            if (!_inventory.SpendGold(item.shopPrice))
+            {
+                OnPurchaseFailed?.Invoke("Yetersiz Gold!");
+                return false;
+            }
+            
+            Debug.Log($"[Shop] Purchased item: {item.itemName} for {item.shopPrice} Gold");
+            return true;
+        }
     }
     
     /// <summary>

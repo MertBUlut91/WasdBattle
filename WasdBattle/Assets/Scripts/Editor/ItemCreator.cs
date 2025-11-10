@@ -6,223 +6,145 @@ using System.IO;
 namespace WasdBattle.Editor
 {
     /// <summary>
-    /// Editor tool - Starter itemleri otomatik oluşturur
+    /// Editor tool to create test items
     /// </summary>
     public class ItemCreator : EditorWindow
     {
-        [MenuItem("WasdBattle/Create Default Items")]
-        public static void CreateDefaultItems()
+        [MenuItem("WasdBattle/Create Test Items")]
+        public static void CreateTestItems()
         {
-            string itemPath = "Assets/ScriptableObjects/Items";
+            string itemsPath = "Assets/Resources/Items";
             
             // Klasör yoksa oluştur
-            if (!Directory.Exists(itemPath))
+            if (!Directory.Exists(itemsPath))
             {
-                Directory.CreateDirectory(itemPath);
-                AssetDatabase.Refresh();
+                Directory.CreateDirectory(itemsPath);
             }
             
-            Debug.Log("[ItemCreator] Creating default starter items...");
-            
-            // Mage Starter Items
-            CreateMageStarterItems(itemPath);
-            
-            // Warrior Starter Items
-            CreateWarriorStarterItems(itemPath);
-            
-            // Ninja Starter Items
-            CreateNinjaStarterItems(itemPath);
+            // Test itemleri oluştur
+            CreateWeapons(itemsPath);
+            CreateArmor(itemsPath);
+            CreateAccessories(itemsPath);
             
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
             
-            Debug.Log("[ItemCreator] Default items created successfully!");
-            EditorUtility.DisplayDialog("Success", "Default starter items created in:\n" + itemPath, "OK");
+            Debug.Log("[ItemCreator] Test items created successfully!");
         }
         
-        private static void CreateMageStarterItems(string basePath)
+        private static void CreateWeapons(string path)
         {
-            // Mage Starter Robe
-            ItemData mageRobe = ScriptableObject.CreateInstance<ItemData>();
-            mageRobe.itemId = "item_mage_starter_robe";
-            mageRobe.itemName = "Apprentice Robe";
-            mageRobe.description = "A simple robe for beginner mages.";
-            mageRobe.slot = EquipmentSlot.Chest;
-            mageRobe.requiredClass = ItemClass.Mage;
-            mageRobe.rarity = ItemRarity.Common;
-            mageRobe.level = 1;
-            mageRobe.healthBonus = 10;
-            mageRobe.staminaBonus = 5;
-            mageRobe.magicResistanceBonus = 5;
-            mageRobe.canBeCrafted = false;
-            mageRobe.canBeBought = false;
+            // Warrior Sword
+            CreateItem(path, "item_warrior_sword", "Warrior's Blade", EquipmentSlot.Weapon, 
+                ItemClass.Warrior, ItemRarity.Common, 
+                hpBonus: 0, staminaBonus: 0, armorBonus: 5, magicResistBonus: 0);
             
-            AssetDatabase.CreateAsset(mageRobe, $"{basePath}/Mage_Starter_Robe.asset");
+            // Mage Staff
+            CreateItem(path, "item_mage_staff", "Mage's Staff", EquipmentSlot.Weapon, 
+                ItemClass.Mage, ItemRarity.Common, 
+                hpBonus: 0, staminaBonus: 10, armorBonus: 0, magicResistBonus: 5);
             
-            // Mage Starter Staff
-            ItemData mageStaff = ScriptableObject.CreateInstance<ItemData>();
-            mageStaff.itemId = "item_mage_starter_staff";
-            mageStaff.itemName = "Wooden Staff";
-            mageStaff.description = "A basic staff for casting spells.";
-            mageStaff.slot = EquipmentSlot.Weapon;
-            mageStaff.requiredClass = ItemClass.Mage;
-            mageStaff.rarity = ItemRarity.Common;
-            mageStaff.level = 1;
-            mageStaff.damageBonus = 5;
-            mageStaff.staminaBonus = 10;
-            mageStaff.canBeCrafted = false;
-            mageStaff.canBeBought = false;
+            // Ninja Dagger
+            CreateItem(path, "item_ninja_dagger", "Ninja's Dagger", EquipmentSlot.Weapon, 
+                ItemClass.Ninja, ItemRarity.Common, 
+                hpBonus: 0, staminaBonus: 15, armorBonus: 0, magicResistBonus: 0);
             
-            AssetDatabase.CreateAsset(mageStaff, $"{basePath}/Mage_Starter_Staff.asset");
-            
-            Debug.Log("[ItemCreator] Created Mage starter items");
+            // Legendary Sword
+            CreateItem(path, "item_legendary_sword", "Legendary Excalibur", EquipmentSlot.Weapon, 
+                ItemClass.Warrior, ItemRarity.Legendary, 
+                hpBonus: 50, staminaBonus: 30, armorBonus: 20, magicResistBonus: 10);
         }
         
-        private static void CreateWarriorStarterItems(string basePath)
+        private static void CreateArmor(string path)
         {
-            // Warrior Starter Armor
-            ItemData warriorArmor = ScriptableObject.CreateInstance<ItemData>();
-            warriorArmor.itemId = "item_warrior_starter_armor";
-            warriorArmor.itemName = "Iron Armor";
-            warriorArmor.description = "Basic iron armor for warriors.";
-            warriorArmor.slot = EquipmentSlot.Chest;
-            warriorArmor.requiredClass = ItemClass.Warrior;
-            warriorArmor.rarity = ItemRarity.Common;
-            warriorArmor.level = 1;
-            warriorArmor.healthBonus = 20;
-            warriorArmor.armorBonus = 10;
-            warriorArmor.canBeCrafted = false;
-            warriorArmor.canBeBought = false;
+            // Warrior Helmet
+            CreateItem(path, "item_warrior_helmet", "Iron Helmet", EquipmentSlot.Helmet, 
+                ItemClass.Warrior, ItemRarity.Common, 
+                hpBonus: 20, staminaBonus: 0, armorBonus: 10, magicResistBonus: 0);
             
-            AssetDatabase.CreateAsset(warriorArmor, $"{basePath}/Warrior_Starter_Armor.asset");
+            // Warrior Chest
+            CreateItem(path, "item_warrior_chest", "Iron Chestplate", EquipmentSlot.Chest, 
+                ItemClass.Warrior, ItemRarity.Common, 
+                hpBonus: 30, staminaBonus: 0, armorBonus: 15, magicResistBonus: 0);
             
-            // Warrior Starter Sword
-            ItemData warriorSword = ScriptableObject.CreateInstance<ItemData>();
-            warriorSword.itemId = "item_warrior_starter_sword";
-            warriorSword.itemName = "Iron Sword";
-            warriorSword.description = "A reliable iron sword.";
-            warriorSword.slot = EquipmentSlot.Weapon;
-            warriorSword.requiredClass = ItemClass.Warrior;
-            warriorSword.rarity = ItemRarity.Common;
-            warriorSword.level = 1;
-            warriorSword.damageBonus = 8;
-            warriorSword.healthBonus = 5;
-            warriorSword.canBeCrafted = false;
-            warriorSword.canBeBought = false;
+            // Warrior Gloves
+            CreateItem(path, "item_warrior_gloves", "Iron Gauntlets", EquipmentSlot.Gloves, 
+                ItemClass.Warrior, ItemRarity.Common, 
+                hpBonus: 10, staminaBonus: 0, armorBonus: 8, magicResistBonus: 0);
             
-            AssetDatabase.CreateAsset(warriorSword, $"{basePath}/Warrior_Starter_Sword.asset");
+            // Warrior Legs
+            CreateItem(path, "item_warrior_legs", "Iron Greaves", EquipmentSlot.Legs, 
+                ItemClass.Warrior, ItemRarity.Common, 
+                hpBonus: 20, staminaBonus: 0, armorBonus: 12, magicResistBonus: 0);
             
-            Debug.Log("[ItemCreator] Created Warrior starter items");
+            // Mage Helmet
+            CreateItem(path, "item_mage_helmet", "Mystic Hood", EquipmentSlot.Helmet, 
+                ItemClass.Mage, ItemRarity.Common, 
+                hpBonus: 10, staminaBonus: 10, armorBonus: 0, magicResistBonus: 10);
+            
+            // Mage Chest
+            CreateItem(path, "item_mage_chest", "Mystic Robe", EquipmentSlot.Chest, 
+                ItemClass.Mage, ItemRarity.Common, 
+                hpBonus: 15, staminaBonus: 15, armorBonus: 0, magicResistBonus: 15);
+            
+            // Ninja Helmet
+            CreateItem(path, "item_ninja_helmet", "Leather Cap", EquipmentSlot.Helmet, 
+                ItemClass.Ninja, ItemRarity.Common, 
+                hpBonus: 15, staminaBonus: 10, armorBonus: 5, magicResistBonus: 5);
+            
+            // Ninja Chest
+            CreateItem(path, "item_ninja_chest", "Leather Armor", EquipmentSlot.Chest, 
+                ItemClass.Ninja, ItemRarity.Common, 
+                hpBonus: 20, staminaBonus: 15, armorBonus: 8, magicResistBonus: 8);
         }
         
-        private static void CreateNinjaStarterItems(string basePath)
+        private static void CreateAccessories(string path)
         {
-            // Ninja Starter Outfit
-            ItemData ninjaOutfit = ScriptableObject.CreateInstance<ItemData>();
-            ninjaOutfit.itemId = "item_ninja_starter_outfit";
-            ninjaOutfit.itemName = "Shadow Garb";
-            ninjaOutfit.description = "Light armor for agile ninjas.";
-            ninjaOutfit.slot = EquipmentSlot.Chest;
-            ninjaOutfit.requiredClass = ItemClass.Ninja;
-            ninjaOutfit.rarity = ItemRarity.Common;
-            ninjaOutfit.level = 1;
-            ninjaOutfit.healthBonus = 15;
-            ninjaOutfit.staminaBonus = 10;
-            ninjaOutfit.armorBonus = 3;
-            ninjaOutfit.canBeCrafted = false;
-            ninjaOutfit.canBeBought = false;
+            // Common Ring
+            CreateItem(path, "item_ring_common", "Simple Ring", EquipmentSlot.Ring1, 
+                ItemClass.All, ItemRarity.Common, 
+                hpBonus: 5, staminaBonus: 5, armorBonus: 2, magicResistBonus: 2);
             
-            AssetDatabase.CreateAsset(ninjaOutfit, $"{basePath}/Ninja_Starter_Outfit.asset");
+            // Rare Ring
+            CreateItem(path, "item_ring_rare", "Enchanted Ring", EquipmentSlot.Ring1, 
+                ItemClass.All, ItemRarity.Rare, 
+                hpBonus: 15, staminaBonus: 15, armorBonus: 5, magicResistBonus: 5);
             
-            // Ninja Starter Daggers
-            ItemData ninjaDaggers = ScriptableObject.CreateInstance<ItemData>();
-            ninjaDaggers.itemId = "item_ninja_starter_daggers";
-            ninjaDaggers.itemName = "Steel Daggers";
-            ninjaDaggers.description = "Quick and deadly daggers.";
-            ninjaDaggers.slot = EquipmentSlot.Weapon;
-            ninjaDaggers.requiredClass = ItemClass.Ninja;
-            ninjaDaggers.rarity = ItemRarity.Common;
-            ninjaDaggers.level = 1;
-            ninjaDaggers.damageBonus = 6;
-            ninjaDaggers.staminaBonus = 5;
-            ninjaDaggers.critChanceBonus = 0.05f; // %5 crit
-            ninjaDaggers.canBeCrafted = false;
-            ninjaDaggers.canBeBought = false;
+            // Common Necklace
+            CreateItem(path, "item_necklace_common", "Simple Necklace", EquipmentSlot.Necklace, 
+                ItemClass.All, ItemRarity.Common, 
+                hpBonus: 10, staminaBonus: 5, armorBonus: 3, magicResistBonus: 3);
             
-            AssetDatabase.CreateAsset(ninjaDaggers, $"{basePath}/Ninja_Starter_Daggers.asset");
+            // Epic Necklace
+            CreateItem(path, "item_necklace_epic", "Dragon's Pendant", EquipmentSlot.Necklace, 
+                ItemClass.All, ItemRarity.Epic, 
+                hpBonus: 30, staminaBonus: 20, armorBonus: 10, magicResistBonus: 10);
             
-            Debug.Log("[ItemCreator] Created Ninja starter items");
+            // Common Bracelet
+            CreateItem(path, "item_bracelet_common", "Simple Bracelet", EquipmentSlot.Bracelet, 
+                ItemClass.All, ItemRarity.Common, 
+                hpBonus: 8, staminaBonus: 8, armorBonus: 4, magicResistBonus: 4);
         }
         
-        [MenuItem("WasdBattle/Create Example Craftable Items")]
-        public static void CreateExampleCraftableItems()
+        private static void CreateItem(string path, string id, string itemName, EquipmentSlot slot, 
+            ItemClass requiredClass, ItemRarity rarity, 
+            int hpBonus, int staminaBonus, int armorBonus, int magicResistBonus)
         {
-            string itemPath = "Assets/ScriptableObjects/Items/Craftable";
+            ItemData item = ScriptableObject.CreateInstance<ItemData>();
+            item.itemId = id;
+            item.itemName = itemName;
+            item.slot = slot;
+            item.requiredClass = requiredClass;
+            item.rarity = rarity;
+            item.healthBonus = hpBonus;
+            item.staminaBonus = staminaBonus;
+            item.armorBonus = armorBonus;
+            item.magicResistanceBonus = magicResistBonus;
+            item.description = $"A {rarity} {slot} for {requiredClass}";
             
-            if (!Directory.Exists(itemPath))
-            {
-                Directory.CreateDirectory(itemPath);
-                AssetDatabase.Refresh();
-            }
-            
-            Debug.Log("[ItemCreator] Creating example craftable items...");
-            
-            // Example: Epic Mage Helmet
-            ItemData epicHelmet = ScriptableObject.CreateInstance<ItemData>();
-            epicHelmet.itemId = "item_epic_mage_helmet";
-            epicHelmet.itemName = "Arcane Crown";
-            epicHelmet.description = "A powerful helmet imbued with arcane energy.";
-            epicHelmet.slot = EquipmentSlot.Helmet;
-            epicHelmet.requiredClass = ItemClass.Mage;
-            epicHelmet.rarity = ItemRarity.Epic;
-            epicHelmet.level = 10;
-            epicHelmet.healthBonus = 30;
-            epicHelmet.staminaBonus = 20;
-            epicHelmet.magicResistanceBonus = 15;
-            epicHelmet.damageBonus = 10;
-            epicHelmet.canBeCrafted = true;
-            epicHelmet.craftingMaterials = new CraftingMaterial[]
-            {
-                new CraftingMaterial { materialType = MaterialType.Metal, amount = 50 },
-                new CraftingMaterial { materialType = MaterialType.EnergyCrystal, amount = 30 },
-                new CraftingMaterial { materialType = MaterialType.Rune, amount = 10 },
-                new CraftingMaterial { materialType = MaterialType.GemStone, amount = 5 }
-            };
-            epicHelmet.canBeBought = false;
-            
-            AssetDatabase.CreateAsset(epicHelmet, $"{itemPath}/Epic_Mage_Helmet.asset");
-            
-            // Example: Legendary Weapon
-            ItemData legendaryWeapon = ScriptableObject.CreateInstance<ItemData>();
-            legendaryWeapon.itemId = "item_legendary_sword";
-            legendaryWeapon.itemName = "Dragonslayer";
-            legendaryWeapon.description = "A legendary blade forged from dragon scales.";
-            legendaryWeapon.slot = EquipmentSlot.Weapon;
-            legendaryWeapon.requiredClass = ItemClass.All; // Herkes kullanabilir
-            legendaryWeapon.rarity = ItemRarity.Legendary;
-            legendaryWeapon.level = 20;
-            legendaryWeapon.damageBonus = 50;
-            legendaryWeapon.healthBonus = 20;
-            legendaryWeapon.critChanceBonus = 0.15f; // %15 crit
-            legendaryWeapon.critDamageBonus = 0.50f; // %50 crit damage
-            legendaryWeapon.canBeCrafted = true;
-            legendaryWeapon.craftingMaterials = new CraftingMaterial[]
-            {
-                new CraftingMaterial { materialType = MaterialType.Metal, amount = 200 },
-                new CraftingMaterial { materialType = MaterialType.GemStone, amount = 50 },
-                new CraftingMaterial { materialType = MaterialType.DarkEssence, amount = 20 },
-                new CraftingMaterial { materialType = MaterialType.LightEssence, amount = 20 }
-            };
-            legendaryWeapon.canBeBought = false;
-            
-            AssetDatabase.CreateAsset(legendaryWeapon, $"{itemPath}/Legendary_Dragonslayer.asset");
-            
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
-            
-            Debug.Log("[ItemCreator] Example craftable items created!");
-            EditorUtility.DisplayDialog("Success", "Example craftable items created in:\n" + itemPath, "OK");
+            string assetPath = $"{path}/{id}.asset";
+            AssetDatabase.CreateAsset(item, assetPath);
+            Debug.Log($"[ItemCreator] Created: {itemName} at {assetPath}");
         }
     }
 }
-
